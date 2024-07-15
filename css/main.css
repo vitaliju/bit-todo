@@ -58,3 +58,62 @@ form > button {
 .hidden {
   display: none;
 }
+.toast {
+  /* display: none; */
+  display: flex;
+  position: fixed;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 24rem;
+  border: 0.1rem solid #ccc;
+  box-shadow: 0 0.2rem 0.4rem #0003;
+}
+.toast.active {
+  display: flex;
+}
+.toast > .icon {
+  width: 4rem;
+  padding: 1rem;
+}
+.toast > .icon > svg {
+  display: none;
+  width: 2rem;
+  height: 2rem;
+}
+.toast[data-state="success"] > .icon > svg:nth-child(1),
+.toast[data-state="info"] > .icon > svg:nth-child(2),
+.toast[data-state="warning"] > .icon > svg:nth-child(3),
+.toast[data-state="error"] > .icon > svg:nth-child(4) {
+  display: block;
+}
+.toast > .text {
+  padding: 1rem;
+}
+.toast > .text > .title {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.toast[data-state="success"] > .text > .title {
+  color: green;
+}
+.toast[data-state="info"] > .text > .title {
+  color: blue;
+}
+.toast[data-state="warning"] > .text > .title {
+  color: yellow;
+}
+.toast[data-state="error"] > .text > .title {
+  color: red;
+}
+.toast > .close {
+  width: 4rem;
+  padding: 1rem;
+  margin-left: auto;
+}
+.toast > .close > svg {
+  width: 2rem;
+  height: 2rem;
+}
