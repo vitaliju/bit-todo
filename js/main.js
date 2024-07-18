@@ -3,8 +3,8 @@
 
 const h1DOM = document.querySelector("h1");
 const formDOM = document.forms[0];
-const textInputDOM = formDOM.querySelector("input[type='text']");
-const colorInputDOM = formDOM.querySelector("input[type='color']");
+const textInputDOM = formDOM.querySelector('input[type="text"]');
+const colorInputDOM = formDOM.querySelector('input[type="color"]');
 const submitButtonDOM = formDOM.querySelector("button");
 const listDOM = document.querySelector(".list");
 
@@ -43,7 +43,7 @@ submitButtonDOM.addEventListener("click", (e) => {
   });
   localStorage.setItem("tasks", JSON.stringify(todoData));
   renderList();
-  showToastSuccess("Info updated");
+  showToastSuccess("Įrašas sėkmingas sukurtas.");
 });
 
 function renderList() {
@@ -64,7 +64,7 @@ function renderTaskList() {
 
   for (const todo of todoData) {
     HTML += `
-            <article class="item data-state="${
+            <article class="item" data-state="${
               todo.state
             }" style="border-left-color: ${todo.color};">
                 <div class="date">${formatTime(todo.createdAt)}</div>
@@ -111,7 +111,7 @@ function renderTaskList() {
 
         todoData[i].text = updateInputDOM.value.trim();
         renderTaskList();
-        showToastSuccess("Info updated");
+        showToastSuccess("Įrašo informacija sėkmingai atnaujinta.");
         localStorage.setItem("tasks", JSON.stringify(todoData));
       });
     }
@@ -120,9 +120,12 @@ function renderTaskList() {
     if (cancelDOM !== null) {
       cancelDOM.addEventListener("click", () => {
         articleEditFormDOM.classList.add("hidden");
-        showToastInfo("Info not changed");
+        showToastInfo(
+          "Įrašo informacijos redagavimas baigtas be jokių pakeitimų."
+        );
       });
     }
+
     const doneDOM = articleDOM.querySelector("button.done");
     if (doneDOM !== null) {
       doneDOM.addEventListener("click", () => {
@@ -145,7 +148,7 @@ function renderTaskList() {
       deleteDOM.addEventListener("click", () => {
         todoData.splice(i, 1);
         renderList();
-        showToastSuccess("Deleted success");
+        showToastSuccess("Įrašas sėkmingas ištrintas.");
         localStorage.setItem("tasks", JSON.stringify(todoData));
       });
     }
@@ -153,7 +156,8 @@ function renderTaskList() {
 }
 
 function formatTime(timeInMs) {
-  // minimum 100-ieji metai
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+  // minimum 100-ieji metai ???
   // maximum ???
   const date = new Date(timeInMs);
   const y = date.getFullYear();
@@ -162,56 +166,25 @@ function formatTime(timeInMs) {
   const h = date.getHours();
   const mn = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
   const s = (date.getSeconds() < 10 ? "0" : "") + date.getSeconds();
+
   return `${y}-${m}-${d} ${h}:${mn}:${s}`;
 }
 
-/*function formatTime() {
-  // mdn: js Date -> getYear, getMonth, getDay, getHour...
-
-  let now = new Date();
-  let year = now.getFullYear();
-  let month = now.getMonth() + 1;
-  let day = now.getDate();
-  let hour = now.getHours();
-  let minute = now.getMinutes();
-  let second = now.getSeconds();
-
-  if (month.toString().length === 1) {
-    month = "0" + month;
-  }
-  if (day.toString().length === 1) {
-    day = "0" + day;
-  }
-  if (hour.toString().length === 1) {
-    hour = "0" + hour;
-  }
-  if (minute.toString().length === 1) {
-    minute = "0" + minute;
-  }
-  if (second.toString().length === 1) {
-    second = "0" + second;
-  }
-  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
-}
-// example usage: realtime clock
-
-setInterval(function () {
-  currentTime = formatTime();
-  document.querySelector("date").innerHTML = currentTime;
-}, 1000);*/
-
 function isValidText(text) {
   if (typeof text !== "string") {
-    return "Info must be string";
+    return "Informacija turi būti tekstinė";
   }
+
   if (text === "") {
-    return "String is not empty";
+    return "Parašytas tektas negali būti tuščias.";
   }
+
   if (text.trim() === "") {
-    return "String can't content only spaces";
+    return "Parašytas tektas negali būti vien iš tarpų.";
   }
+
   if (text[0].toUpperCase() !== text[0]) {
-    return "String must start with capital letter";
+    return "Tekstas negali prasidėti mažąja raide.";
   }
 
   return true;
@@ -225,24 +198,28 @@ function showToast(state, title, msg) {
 }
 
 function showToastSuccess(msg) {
-  showToast("success", "Success", msg);
-}
-function showToastError(msg) {
-  showToast("error", "Error", msg);
-}
-function showToastInfo(msg) {
-  showToast("info", "Information", msg);
-}
-function showToastWarning(msg) {
-  showToast("warning", "Warning", msg);
+  showToast("success", "Pavyko", msg);
 }
 
-// #######################################
-// #######################################
+function showToastInfo(msg) {
+  showToast("info", "Informacija", msg);
+}
+
+function showToastWarning(msg) {
+  showToast("warning", "Įspėjimas", msg);
+}
+
+function showToastError(msg) {
+  showToast("error", "Klaida", msg);
+}
+
+// ###################################################
+// ###################################################
 
 const sortingListDOM = document.querySelector(".list-actions");
-const sortingButtonsDOM = document.querySelectorAll("button");
+const sortingButtonsDOM = sortingListDOM.querySelectorAll("button");
 
+// Sorting: Laikas 0-9
 const btnTime09DOM = sortingButtonsDOM[0];
 btnTime09DOM.addEventListener("click", () => {
   sortingListDOM.querySelector(".active").classList.remove("active");
@@ -251,6 +228,7 @@ btnTime09DOM.addEventListener("click", () => {
   renderTaskList();
 });
 
+// Sorting: Laikas 9-0
 const btnTime90DOM = sortingButtonsDOM[1];
 btnTime90DOM.addEventListener("click", () => {
   sortingListDOM.querySelector(".active").classList.remove("active");
@@ -259,6 +237,7 @@ btnTime90DOM.addEventListener("click", () => {
   renderTaskList();
 });
 
+// Sorting: Spalva A-Z
 const btnColorAZDOM = sortingButtonsDOM[2];
 btnColorAZDOM.addEventListener("click", () => {
   sortingListDOM.querySelector(".active").classList.remove("active");
@@ -269,6 +248,7 @@ btnColorAZDOM.addEventListener("click", () => {
   renderTaskList();
 });
 
+// Sorting: Spalva Z-A
 const btnColorZADOM = sortingButtonsDOM[3];
 btnColorZADOM.addEventListener("click", () => {
   sortingListDOM.querySelector(".active").classList.remove("active");
@@ -279,6 +259,7 @@ btnColorZADOM.addEventListener("click", () => {
   renderTaskList();
 });
 
+// Sorting: Pavadinimas A-Z
 const btnTitleAZDOM = sortingButtonsDOM[4];
 btnTitleAZDOM.addEventListener("click", () => {
   sortingListDOM.querySelector(".active").classList.remove("active");
@@ -287,6 +268,7 @@ btnTitleAZDOM.addEventListener("click", () => {
   renderTaskList();
 });
 
+// Sorting: Pavadinimas Z-A
 const btnTitleZADOM = sortingButtonsDOM[5];
 btnTitleZADOM.addEventListener("click", () => {
   sortingListDOM.querySelector(".active").classList.remove("active");
@@ -295,12 +277,12 @@ btnTitleZADOM.addEventListener("click", () => {
   renderTaskList();
 });
 
-// #######################################
-// #######################################
+// ###################################################
+// ###################################################
 
 // CRUD operations:
 // -----------------------------------
 // create   array.push({initial data})
 // read     array.map()
 // update   array[i] = {updated data}
-// delete   array.splice(i, 1)s
+// delete   array.splice(i, 1)
