@@ -43,7 +43,7 @@ submitButtonDOM.addEventListener("click", (e) => {
   });
   localStorage.setItem("tasks", JSON.stringify(todoData));
   renderList();
-  showToastSuccess("Įrašas sėkmingas sukurtas.");
+  showToastSuccess("Updated successfully");
 });
 
 function renderList() {
@@ -111,7 +111,7 @@ function renderTaskList() {
 
         todoData[i].text = updateInputDOM.value.trim();
         renderTaskList();
-        showToastSuccess("Įrašo informacija sėkmingai atnaujinta.");
+        showToastSuccess("Information updeted");
         localStorage.setItem("tasks", JSON.stringify(todoData));
       });
     }
@@ -120,9 +120,7 @@ function renderTaskList() {
     if (cancelDOM !== null) {
       cancelDOM.addEventListener("click", () => {
         articleEditFormDOM.classList.add("hidden");
-        showToastInfo(
-          "Įrašo informacijos redagavimas baigtas be jokių pakeitimų."
-        );
+        showToastInfo("Information edited without changes.");
       });
     }
 
@@ -148,7 +146,7 @@ function renderTaskList() {
       deleteDOM.addEventListener("click", () => {
         todoData.splice(i, 1);
         renderList();
-        showToastSuccess("Įrašas sėkmingas ištrintas.");
+        showToastSuccess("Successfully deleted");
         localStorage.setItem("tasks", JSON.stringify(todoData));
       });
     }
@@ -172,19 +170,19 @@ function formatTime(timeInMs) {
 
 function isValidText(text) {
   if (typeof text !== "string") {
-    return "Informacija turi būti tekstinė";
+    return "Information must be string.";
   }
 
   if (text === "") {
-    return "Parašytas tektas negali būti tuščias.";
+    return "Text can't be empty.";
   }
 
   if (text.trim() === "") {
-    return "Parašytas tektas negali būti vien iš tarpų.";
+    return "Text can't content only spaces.";
   }
 
   if (text[0].toUpperCase() !== text[0]) {
-    return "Tekstas negali prasidėti mažąja raide.";
+    return "Text must star with capital letter.";
   }
 
   return true;
@@ -198,19 +196,19 @@ function showToast(state, title, msg) {
 }
 
 function showToastSuccess(msg) {
-  showToast("success", "Pavyko", msg);
+  showToast("success", "Success", msg);
 }
 
 function showToastInfo(msg) {
-  showToast("info", "Informacija", msg);
+  showToast("info", "Information", msg);
 }
 
 function showToastWarning(msg) {
-  showToast("warning", "Įspėjimas", msg);
+  showToast("warning", "Warning", msg);
 }
 
 function showToastError(msg) {
-  showToast("error", "Klaida", msg);
+  showToast("error", "Error", msg);
 }
 
 // ###################################################

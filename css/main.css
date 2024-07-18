@@ -121,8 +121,8 @@ form > button {
   align-items: center;
 }
 .toast > .icon {
-  width: 3rem;
-  padding: 1.5rem;
+  width: 4rem;
+  padding: 2rem;
 }
 .toast > .icon > svg {
   display: none;
@@ -139,7 +139,7 @@ form > button {
   display: none;
 }
 .toast > .text {
-  padding: 0.2rem;
+  padding: 1rem;
   text-align: center;
 }
 .toast > .text > .title {
@@ -160,9 +160,9 @@ form > button {
   color: red;
 }
 .toast > .close {
-  width: 3rem;
-  padding: 1.5rem;
-  margin-left: auto;
+  width: 4rem;
+  padding: 2rem;
+  margin-left: 0 auto;
 }
 .toast > .close > svg {
   width: 2rem;
