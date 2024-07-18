@@ -12,14 +12,36 @@ form {
   flex-direction: column;
   width: 100%;
 }
-form > input {
-  padding: 0.3rem 0.5rem;
-  font-size: 2rem;
-}
+form > input,
 form > button {
+  min-height: 3rem;
+  width: 100%;
   padding: 0.3rem 0.5rem;
   font-size: 2rem;
+  line-height: 2rem;
 }
+/* --------------------------*/
+
+.list-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.list-actions .title {
+  font-weight: bold;
+}
+.list-actions button {
+  font-size: 1.1rem;
+  padding: 0.2rem 0.5rem;
+}
+.list-actions button.active {
+  background-color: #36f;
+  color: #fff;
+}
+
+/* --------------------------*/
+
 .list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -39,6 +61,23 @@ form > button {
   gap: 1rem;
   padding: 1rem;
   border: 0.2rem solid #ccc;
+  border-left: 0.5rem solid #000;
+  position: relative;
+}
+.list > .item[data-state="done"] {
+  background-color: #ccc;
+}
+.list .state {
+  display: none;
+  padding: 0.3rem 0.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: green;
+  color: #fff;
+}
+.list > .item[data-state="done"] .state {
+  display: block;
 }
 .list > .text {
   font-size: 1.5rem;
@@ -59,23 +98,24 @@ form > button {
   display: none;
 }
 .toast {
-  /* display: none; */
-  display: flex;
+  display: none;
   position: fixed;
   bottom: 3rem;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
   max-width: 24rem;
+  background-color: #fff;
   border: 0.1rem solid #ccc;
   box-shadow: 0 0.2rem 0.4rem #0003;
 }
 .toast.active {
   display: flex;
+  align-items: center;
 }
 .toast > .icon {
-  width: 4rem;
-  padding: 1rem;
+  width: 3rem;
+  padding: 1.5rem;
 }
 .toast > .icon > svg {
   display: none;
@@ -88,8 +128,12 @@ form > button {
 .toast[data-state="error"] > .icon > svg:nth-child(4) {
   display: block;
 }
+.toast[data-state=""] > .icon {
+  display: none;
+}
 .toast > .text {
-  padding: 1rem;
+  padding: 0.2rem;
+  text-align: center;
 }
 .toast > .text > .title {
   font-weight: bold;
@@ -109,8 +153,8 @@ form > button {
   color: red;
 }
 .toast > .close {
-  width: 4rem;
-  padding: 1rem;
+  width: 3rem;
+  padding: 1.5rem;
   margin-left: auto;
 }
 .toast > .close > svg {
